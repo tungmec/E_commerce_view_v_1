@@ -1,0 +1,15 @@
+.button {
+    border: 1px solid red;
+}
+
+.container {
+    border: 1px solid gold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container h2 {
+    color: blue;
+}
