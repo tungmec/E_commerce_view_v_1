@@ -1,0 +1,15 @@
+.nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.nav_component {
+    margin: 0px 5px 0px 5px;
+    color: dodgerblue;
+}
+
+.active_component{
+
+     color: red;
+}

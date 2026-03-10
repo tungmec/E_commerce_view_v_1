@@ -40,10 +40,12 @@ export const loginUser = async (username, password) => {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include" ,
             body: JSON.stringify({
                 username: username,
                 password: password,
             }),
+            
         });
 
         if (!response.ok) {
@@ -61,3 +63,19 @@ export const loginUser = async (username, password) => {
     };
 
 };
+
+export const logoutUser = async () => {
+    try {
+       const response = await fetch(`${API_URL}/users/logout`, {
+            method: 'POST',
+        });
+        if (response.ok) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch(err) {
+        alert(err.message);
+        return false;
+    }
+}

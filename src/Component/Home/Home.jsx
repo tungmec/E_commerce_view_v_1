@@ -1,14 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import {useState} from 'react';
 import styles from './Home.module.css';
-import {createUser, loginUser} from '../../Util/ServerConnect.js';
+import {createUser, loginUser, logoutUser} from '../../Util/ServerConnect.js';
 
 
 export const Home = () => {
     const [login, setLogin] = useState(false);
     const [create, setCreate] = useState(false);
+    const [logout, setLogout] =useState(false);
     const [createName, setCreateName] = useState("");
     const [createPass, setCreatePass] = useState("");
+    const [loginName, setLoginName] = useState("");
+    const [loginPass, setLoginPass] = useState("");
     const navigate = useNavigate();
     // Action when click Login button
     const loginHandle = () => {
@@ -27,7 +30,7 @@ export const Home = () => {
     const backHanle = () => {
         setLogin(false);
         setCreate(false);
-        navigate("/", {replace: true});
+                navigate("/", {replace: true});
     }
     // Action when change User name in Create form:
     const createNameChangeHandle = (e) => {
@@ -47,15 +50,51 @@ export const Home = () => {
             setCreatePass("");
             setLogin(true);
             setCreate(false);
+            setLogout(false);
             navigate("/", {replace: true});
         } else {
             alert("Creating fault");
         }
     }
+    // Action when change user name in Login form:
+    const loginNameChangeHandle = (e) => {
+        setLoginName(e.target.value);
+    }
+    // Action when change pass in Login form:
+    const loginPassChangeHandle = (e) => {
+        setLoginPass(e.target.value);
+    }
+    
+    // Action for submit Login form:
+    const loginSubmitHandle = async (e) => {
+        e.preventDefault();
+        const loginOK = await loginUser(loginName, loginPass);
+        if (loginOK) {
+            setLoginName("");
+            setLoginPass("");
+            setCreate(false);
+            setLogin(false);
+            setLogout(true);
+            navigate("/", {replace:true});
+        }
+    }
 
+    // Action when click Logout:
+    const logoutHandle = async () => {
+        const logoutOK = await logoutUser();
+        if (logoutOK) {
+            setLogout(false);
+            navigate("/", {replace:true});
+        } else {
+            alert("Logout fail");
+        }
+    }
+
+
+    // -------------------------------------------
 
     // render part:
-    if (!login && !create) {
+    if (!login && !create && !logout) {
         return (
                 <>
                 <div className = {styles.container} >
@@ -74,12 +113,15 @@ export const Home = () => {
     } else if (login) {
         return (
             <div>
-                <form action="">
-                    <label htmlFor="loginName">User name:  </label>
-                    <input id='loginName' name='loginName' type="text"  />
+                <form onSubmit={loginSubmitHandle} >
+                    <label htmlFor="loginname">User name:  </label>
+                    <input id='loginname' name='loginname' type="text"
+                            value={loginName} onChange={loginNameChangeHandle} />
                     <br />
-                    <label htmlFor="loginPassword">Password:   </label>                   
-                    <input id='loginPassword'  name='loginPassword'  type="password" />
+                    <label htmlFor="loginpassword">Password:   </label>                   
+                    <input id='loginpassword'  name='loginpassword'  type="password"
+                            value={loginPass} onChange={loginPassChangeHandle} />
+                    <button type="submit" >Login</button>
                 </form>
                 <br />
                 <button onClick={backHanle}>
@@ -107,6 +149,12 @@ export const Home = () => {
                 <button onClick={backHanle}>
                     Back
                 </button>
+            </div>
+        )
+    } else if (logout) {
+        return (
+            <div>
+                <button onClick={logoutHandle}>Logout</button>
             </div>
         )
     };
