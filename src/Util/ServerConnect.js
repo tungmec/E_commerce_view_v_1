@@ -68,6 +68,7 @@ export const logoutUser = async () => {
     try {
        const response = await fetch(`${API_URL}/users/logout`, {
             method: 'POST',
+            credentials: "include",
         });
         if (response.ok) {
             return true;
@@ -75,7 +76,9 @@ export const logoutUser = async () => {
             return false;
         }
     } catch(err) {
-        alert(err.message);
+       
         return false;
     }
-}
+};
+
+    
