@@ -1,6 +1,6 @@
 .container {
     width: 100%;
-    margin: 2rem 0rem;
+    margin: 1rem 0rem ;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,6 +13,8 @@
     flex-direction: column;
     align-items: center;
     width: 80%;
+    padding: 1rem 0rem 0.5rem;
+    margin: 0px;
 }
 
 .select option:nth-child(even) {
@@ -25,13 +27,44 @@
     flex-direction: column;
     align-items: center;
     width: 50%;
-    max-height: 30rem;
+    max-height: 37rem;
     border: 1px solid black;
     overflow:scroll  ;
+    margin-top: 1rem;
 }
+
+.products > div:nth-child(odd) {
+    background-color: rgb(198, 194, 201);
+}
+.products > div:nth-child(even) {
+    background-color: rgb(188, 162, 207);
+}
+
 
 .product_element {
     display: flex;
     flex-direction: column;
-    width: 40%;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid grey;
+
+    padding: 2rem 0rem;
+}
+
+.variants {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.variant {
+    border: 1px solid brown;
+    width: 30%;
+    
+}
+
+.variant > * {
+    margin: 0.5rem 1rem;
 }

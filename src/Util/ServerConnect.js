@@ -132,3 +132,28 @@ export const loadProductsByCategoryName = async (categoryName) => {
         return [];
     }
 }
+
+// Load Variants by ProductId:
+
+export const loadVariantsByProductId = async (productId) => {
+    try {
+            const response = await fetch(`${API_URL}/products/${productId}/variants`,
+                {
+                    method:'GET',
+                    credentials:"include",
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                console.log(data.message);
+                return [];
+            } else {
+                const data = await response.json();
+                return data.variants;
+            }
+
+    } catch(err) {
+        console.log(err.message);
+        return [];
+    }
+}
