@@ -64,6 +64,8 @@ export const loginUser = async (username, password) => {
 
 };
 
+// User logout:
+
 export const logoutUser = async () => {
     try {
        const response = await fetch(`${API_URL}/users/logout`, {
@@ -81,4 +83,52 @@ export const logoutUser = async () => {
     }
 };
 
-    
+// Load all categories:
+
+export const readAllCategories = async() => {
+    try {
+        const response = await fetch(`${API_URL}/products/categories`, {
+            method: 'GET',
+            credentials:"include",
+        });
+
+        if (!response.ok) {            
+            alert("Fail to load categories");
+            return null;
+        };
+
+        const data = await response.json();
+        return data.data;
+
+
+    }  catch(err) {
+            alert(err.message);
+            return null;
+        }
+}
+
+
+// Load products by category name :
+
+export const loadProductsByCategoryName = async (categoryName) => {
+    try {
+        const response = await fetch(`${API_URL}/products?category=${categoryName}`, {
+            method:'GET',
+            credentials:"include",
+            
+        });
+
+        if (!response.ok) {
+            const result = await response.json();
+            console.log(result);
+            return [];
+        } else {
+            const data = await response.json();
+            return data.result;
+        }
+
+    } catch(err) {
+        console.log(err.message);
+        return [];
+    }
+}

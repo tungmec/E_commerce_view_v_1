@@ -2,14 +2,16 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    font-size: 2rem;
 }
 
 .nav_component {
-    margin: 0px 5px 0px 5px;
+    margin: 0 1rem ;
     color: dodgerblue;
 }
 
 .active_component{
 
      color: red;
+     text-decoration: underline;
 }
