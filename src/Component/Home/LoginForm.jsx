@@ -34,7 +34,7 @@ export const LoginForm = () => {
             await checkAuth();
             navigate("/");
         } else {
-            alert("Fail to login")
+           console.log("Fail to login")
         }
 
     }

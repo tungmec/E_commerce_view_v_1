@@ -23,6 +23,7 @@ export const UserProfileForm = () => {
     return (
         <div className={styles.profile_form}>
             <h2>User name: {user.user_name}</h2>
+            <h2>User Id: {user.id}</h2>
 
             <br />
             

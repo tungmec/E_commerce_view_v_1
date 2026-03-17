@@ -68,3 +68,7 @@
 .variant > * {
     margin: 0.5rem 1rem;
 }
+
+li {
+    color: blueviolet;
+}

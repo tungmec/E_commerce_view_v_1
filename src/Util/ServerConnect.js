@@ -157,3 +157,54 @@ export const loadVariantsByProductId = async (productId) => {
         return [];
     }
 }
+
+// load all carts from API by User Id:
+
+export const loadAllCartsByUserId = async (userId) => {
+    try {
+        const response = await fetch(`${API_URL}/cart/all/${userId}`,
+            {
+                method: 'GET',
+                credentials:"include"
+            }
+        );
+
+        if (!response.ok) {
+            const data = await response.json();
+            console.log(data.message);
+            return [];
+        } else {
+            console.log("Ok");
+            const data = await response.json();
+            return data.data;
+        }
+
+    } catch (err) {
+        console.log("Loading error ");
+        return [];
+    }
+}
+
+// Get variants_detail of a cart by cartId:
+
+export const loadVariantsByCartId = async (cartId) => {
+    try {
+        const response = await fetch(`${API_URL}/cart/${cartId}`,{
+            method: 'GET',
+            credentials:"include",
+        });
+
+        if (!response.ok) {
+            const data = await response.json();
+            console.log(data.message);
+            return [];
+        }
+
+        const data= await response.json();
+        return data.itemsInCart;
+
+    } catch (err) {
+        console.log(err.message);
+        return [];
+    }
+}

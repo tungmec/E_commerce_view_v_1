@@ -1,6 +1,7 @@
 import styles from './Products.module.css';
 import {useState, useEffect} from 'react';
 import {loadVariantsByProductId} from '../../Util/ServerConnect.js';
+import {formatVND} from '../../Util/format.js';
 import {VariantForm} from './VariantForm';
 
 
@@ -34,7 +35,7 @@ export const ProductForm = (properties) => {
                             sku={variant.sku}
                             variant_name={variant.variant_name}
                             attributes={variant.attributes}
-                            price={variant.price}
+                            price={formatVND(variant.price)}
                             is_active={variant.is_active}                        
                         />
                         )
