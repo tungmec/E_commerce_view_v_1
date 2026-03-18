@@ -208,3 +208,27 @@ export const loadVariantsByCartId = async (cartId) => {
         return [];
     }
 }
+
+// create new cart 
+
+export const createNewCart = async () => {
+    try {
+        const response = await fetch(`${API_URL}/cart`, {
+            method: 'POST',
+            credentials: "include",
+        });
+        
+        if (response.status === 201) {
+            console.log("Create new Cart OK");
+            return true;
+        } else {
+            console.log("Fail to create new cart");
+            return false;
+        }
+
+    
+    } catch (err) {
+        console.log(err.message);
+        return false;
+    }
+}

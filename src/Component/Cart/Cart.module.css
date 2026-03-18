@@ -6,6 +6,11 @@
     justify-content: space-around;
 }
 
+.cart_infor{
+    width: 100%;
+    border: 1px solid gray;
+}
+
 .cart_list {
     width: 25%;
     display: flex;
@@ -39,4 +44,8 @@
 .variants {
    border-bottom: 1px solid red;
    width: 90%;
+}
+
+.create_button {
+    border: 1px solid gray;
 }
