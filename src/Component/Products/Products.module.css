@@ -57,11 +57,12 @@
     justify-content: space-around;
     flex-wrap: wrap;
     gap: 2rem;
+    width: 100%;
 }
 
 .variant {
     border: 1px solid brown;
-    width: 30%;
+    width: 40%;
     
 }
 

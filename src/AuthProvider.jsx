@@ -10,6 +10,7 @@ export const AuthProvider = ({children}) => {
     const [haveActiveCart, setHavActiveCart] = useState(false);
     const [activeCartId, setActiveCartId] = useState(null);
 
+
     // Check authenticate by request API: GET /auth/me :
     const checkAuth = async () => {
 
@@ -35,6 +36,8 @@ export const AuthProvider = ({children}) => {
                
                 const userId = data.user.id;
                 console.log(userId);
+
+
                 const loadedCarts = await loadAllCartsByUserId(userId);
                 setCarts(loadedCarts);
                

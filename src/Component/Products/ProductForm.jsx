@@ -32,6 +32,7 @@ export const ProductForm = (properties) => {
                        return (
                         <VariantForm 
                             key={variant.id}
+                            variantId = {variant.id}
                             sku={variant.sku}
                             variant_name={variant.variant_name}
                             attributes={variant.attributes}

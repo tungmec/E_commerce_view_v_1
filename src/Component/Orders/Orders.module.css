@@ -1,0 +1,50 @@
+.orders_container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.orders_list_form {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center ;
+    
+
+.orders_list {
+    width: 90%;
+    height: 20rem;
+    overflow:scroll;
+    border: 1px solid rgb(136, 48, 48);
+}
+}
+
+.order_in_list{
+    border-bottom: 1px solid gray;
+}
+.selectedOrder {
+    background-color: blueviolet;
+}
+
+.items_list_container{
+    width: 60%;
+}
+.items_list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgb(136, 48, 48);
+    height: 30rem;
+    overflow:scroll;
+}
+
+.item{
+    width: 90%;
+    color: red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid grey;
+}

@@ -2,13 +2,16 @@ import {readAllCategories, loadProductsByCategoryName} from '../../Util/ServerCo
 import {useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import styles from './Products.module.css';
-import { ProductForm } from './ProductForm.jsx'; './ProductForm'
+import { ProductForm } from './ProductForm.jsx'; './ProductForm';
+import {getAuth} from '../../AuthProvider';
 
 export const  Products = () => {
     const [categories, setCategories] = useState([]);
     const [categoryName, setCategoryName] = useState("");
 
     const [products, setProducts] = useState([]);
+
+    const {haveActiveCart} = getAuth();
 
     const navigate = useNavigate();
 
@@ -85,6 +88,8 @@ export const  Products = () => {
                         }
                     </select>
 
+                    {(!haveActiveCart) && <h3><em>Not Active Cart -- Please create new Cart in Carts menu</em></h3> }
+
                 </div>
 
                 <div className={styles.products}>
@@ -93,6 +98,7 @@ export const  Products = () => {
                               return (
                                    
                                          <ProductForm 
+                                            key={product.id}
                                             productId = {product.id}
                                             productName = {product.item_name}
                                             productDescription = {product.item_description}

@@ -1,8 +1,8 @@
 import {getAuth} from '../../AuthProvider';
 import { useNavigate} from 'react-router-dom';
 import {useState, useEffect} from 'react';
-import {loadVariantsByCartId, createNewCart} from '../../Util/ServerConnect.js';
-import {formatVND} from '../../Util/format.js';
+import {loadVariantsByCartId, createNewCart, checkoutActiveCartById} from '../../Util/ServerConnect.js';
+import {formatVND, formatVNtime} from '../../Util/format.js';
 import {VariantForm} from './VariantsInCart';
 
 import styles from './Cart.module.css';
@@ -10,38 +10,44 @@ import styles from './Cart.module.css';
 export const Cart = () => {
     const [variants, setVariants] = useState([]);
     const [isEmptyCart, setIsEmptyCart] = useState(true);
-    
+    const [notUpdateArray, setNotUpdateArray] = useState([]);
+    const [choiceId, setChoieId] = useState(null);
     const [cartTotal, setCartTotal] = useState(0);
+    
     const navigate = useNavigate();
                 
-    const {checkAuth , carts, authenticated, haveActiveCart, activeCartId} = getAuth();  
+    const { checkAuth , carts, authenticated, haveActiveCart, activeCartId} = getAuth();  
     //  Back to Home when not authenticated:
 
     useEffect(() => {
             if (!authenticated) {
             navigate("/");
     }
-    },[]) 
+    },[]); 
 
-    // ----------------
-    // let haveActiveCart = false;
-    // if (!carts || carts === null || carts === undefined){
-    //      haveActiveCart = false;
+    useEffect (() => { console.log("noUpdate array:", notUpdateArray)}, [notUpdateArray]);
+
+// set / clear  for changed but noupdate of all variant in cart 
+    const handleAddNotUpdate = (addValue) => {
         
-    // } else {
+        const index = notUpdateArray.indexOf(addValue);
+        if (index === -1) {
+            setNotUpdateArray((prev) => [...prev, addValue])
+        }
         
-    //     carts.forEach((cart) => {
-    //         if (cart.status === "active") {
-    //             haveActiveCart = true;
-    //         }
-    //     })
-    // }
-    // -----------------
+    }
+
+    const handleRemoveNoUpdate = (removeValue) => {
+        
+        setNotUpdateArray((prev) => prev.filter((value) => value !== removeValue));
+    }
+
+
+// choice cart in list:
     const handleChoiceCart = async (cartID) => {
         const loadedVariants = await loadVariantsByCartId(cartID);
-       
-       
-
+        setChoieId(cartID);
+         
         //  Check for empty ofcurrent cart detail :
         if (!loadedVariants || loadedVariants === null 
             || loadedVariants==undefined || loadedVariants.length === 0) {
@@ -53,6 +59,7 @@ export const Cart = () => {
                 loadedVariants.forEach((variant) => calTotal+= Number(variant.quantity) * Number(variant.price))
                 setCartTotal(calTotal);
                 setIsEmptyCart (false);
+              
             }        
     }
    
@@ -64,6 +71,16 @@ export const Cart = () => {
             }
         
     }
+
+    const handleCheckOut = async () => {
+        const checkoutOK = await checkoutActiveCartById(activeCartId);
+        if (checkoutOK) {
+            await checkAuth();
+        } else {
+            alert("Check out fail");
+        }
+    }
+// RENDER part:
     
     return (
         <div className={styles.cart_form} >
@@ -89,6 +106,7 @@ export const Cart = () => {
                             >
                                 <h4><strong>Cart ID : {cart.id}</strong></h4>
                                 <p>Status: {cart.status} </p>
+                                <p>Create at: {formatVNtime(cart.created_at)} </p>
                             </div>
                         )
                     })}
@@ -106,18 +124,25 @@ export const Cart = () => {
 
                 <div className={styles.cart_detail}> 
                     {
-                        (!isEmptyCart) && <div className={styles.variant_list} >
-                        {variants.map((variant) => {
-                        return <VariantForm 
-                                item_id = {variant.item_id}
-                                variant_id = {variant.variant_id}
-                                variant_name = {variant.variant_name}
-                                sku = {variant.sku}
-                                attributes = {variant.attributes}
-                                price = {variant.price}
-                                quantity = {variant.quantity}
-                             />
-                        })} 
+                        (!isEmptyCart) && 
+                        <div className={styles.variant_list} >
+                            {variants.map((variant) => {
+                            return ( 
+                                    <div>
+                                        <VariantForm 
+                                    
+                                        key={variant.variant_id}
+                                        variant = {variant}
+                                        onPutNoUpdate = {handleAddNotUpdate}
+                                        onClearNoUpdate = {handleRemoveNoUpdate}
+                                        /> 
+                                    </div>
+                                        
+                                )
+                            })} 
+
+                            
+
                         </div>
                       
                     }
@@ -128,7 +153,19 @@ export const Cart = () => {
                         </div>
                       
                     }
-                    <h2>Total: {formatVND(cartTotal)} </h2>
+
+                    <div className={styles.cart_footer} >
+                        <h2>Total: {formatVND(cartTotal)} </h2>
+                        {(notUpdateArray.length === 0 && haveActiveCart && 
+                        choiceId === activeCartId && !isEmptyCart)? 
+                                <button 
+                                    onClick={handleCheckOut}
+                                >
+                                    Check Out
+                                </button> : <h3>Can not Check out before update all change</h3> }
+                        
+                    </div>
+                    
                 </div>
             </div>              
 

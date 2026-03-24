@@ -44,8 +44,42 @@
 .variants {
    border-bottom: 1px solid red;
    width: 90%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
 
 .create_button {
     border: 1px solid gray;
+}
+
+
+.quantity_update {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.input {
+    width: 3rem;
+    height: fit-content;
+    font-size: x-large;
+
+}
+.cart_footer {
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.cart_footer > h3 {
+    color: red;
+}
+.cart_footer > button {
+    border: 1px solid blue;
+    font-size: 1.5rem;
+    font-weight: 900;
 }

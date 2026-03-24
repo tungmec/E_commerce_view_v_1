@@ -232,3 +232,233 @@ export const createNewCart = async () => {
         return false;
     }
 }
+
+export const addVariantToCartByCartId = async (cartId, variantId, quantity) => { 
+    try {
+        const id = Number(cartId);
+        const response = await fetch(`${API_URL}/cart/${id}`,{
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                variantId: variantId,
+                quantity: quantity,
+            }),
+
+        });
+
+        if (!response.ok) {             
+            const data = await response.json();
+            console.log(data.message);
+            return false;
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+        return true;
+
+    } catch(err) {
+        console.log(err.message);
+        return false;
+    }
+
+}
+
+//  Update variant's quantity in active cart:
+
+export const updateQuantityOfVariantInCart = async (cartId, variantId, quantity) => {
+    try {
+        const response = await fetch(`${API_URL}/cart/${cartId}`, {
+            method: 'PUT',
+            credentials:"include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                variantId: variantId,
+                quantity: quantity
+            })
+        });
+
+        if (!response.ok) {
+            const data = await response.json();
+            console.log(data.message);
+            return false;
+        }
+        
+        const data = await response.json();
+        console.log(data.message);
+        return true;
+
+    } catch(err) {
+        console.log(err.message);
+        return false;
+    } 
+}
+
+// Check out active cart function:
+
+export const checkoutActiveCartById = async (cartId) => {
+    try {
+            const response = await fetch(`${API_URL}/cart/${Number(cartId)}/checkout`, {
+                    method: 'POST',
+                    credentials:"include",
+            });
+            
+        if (!response.ok) {
+            const data = await response.json();
+            console.log("Checkout error: ", data.message);
+            return false;
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+        return true;
+        
+
+    } catch(err) {
+        console.log("Checkout fault:");
+        return false;
+    }
+}
+
+//  Load all orders by user Id :
+
+export const loadOrdersOfCurrentUser= async () => {
+    try {
+            const response = await fetch(`${API_URL}/orders`,{
+                method: 'GET',
+                credentials:"include"
+            });
+        if (!response.ok) {
+            const data = await response.json();
+            console.log(data.message);
+            return [];
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+        return data.orderData;
+
+    } catch(err) {
+        console.log(err.message);
+        return [];
+    }
+
+}
+
+// Load all items by OrderId :
+export const loadItemsByOrderId = async (orderId) => {
+    try{
+        const response = await fetch(`${API_URL}/orders/${orderId}`, {
+            method:'GET',
+            credentials:"include",
+        });
+
+        if (!response.ok) {
+            const data = await response.json();
+            console.log(data.message);
+            return [];
+        }
+        const data = await response.json();
+        console.log(data.message);
+        return data.itemsList;
+
+    } catch(err) {
+        console.log(err.message);
+        return [];
+    }
+}
+
+export const loadUserProfile = async () => {
+    try {
+        const response = await fetch(`${API_URL}/users/me`, {
+        method: 'GET',
+        credentials:"include",
+        });
+
+        if (!response.ok) {
+            const data = await response.json();
+            console.log(data.message);
+            return null;
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+        return data.profile;
+    } catch(err) {
+        console.log(err.message);
+        return null;
+    }
+}
+
+//  create profile:
+export const createUserProfile = async (lastName, firstName, phoneNumber, email, address) => {
+    try {
+        const response = await fetch(`${API_URL}/users/me`, {
+            method:'POST',
+            credentials:"include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                lastName:lastName,
+                firstName:firstName,
+                phoneNumber:phoneNumber,
+                email:email,
+                address:address,
+
+            })
+        });
+
+        if (!response.ok) {
+            const data = await response.json();
+            console.log(data.message);
+            return false;
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+        return true;
+
+    } catch(err) {
+        console.log(err.message);
+        return false;
+    }
+}
+
+// Update Profile
+export const updateUserProfile = async (lastName, firstName, phoneNumber, email, address) => {
+    try {
+        const response = await fetch(`${API_URL}/users/me`,{
+            method:'PUT',
+            credentials:"include",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                lastName:lastName,
+                firstName:firstName,
+                phoneNumber:phoneNumber,
+                email:email,
+                address:address,
+            })
+        });
+        
+        if (!response.ok) {
+            const data = await response.json();
+            console.log(data.message);
+            return false;
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+        return true;
+
+    } catch(err) {
+        console.log(err.message);
+        return false;
+    }
+}
