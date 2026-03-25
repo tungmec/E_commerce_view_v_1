@@ -64,6 +64,13 @@ export const loginUser = async (username, password) => {
 
 };
 
+
+//  Login by Google acount
+
+export const loginByGoogle =  () => {
+    window.location.href = `${API_URL}/auth/google`;
+}
+
 // User logout:
 
 export const logoutUser = async () => {

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import {useState} from 'react';
 import { getAuth } from '../../AuthProvider.jsx';
 import styles from './Home.module.css';
-import {loginUser} from '../../Util/ServerConnect.js';
+import {loginUser, loginByGoogle} from '../../Util/ServerConnect.js';
 
 export const LoginForm = () => {
     const [username, setUsername] = useState("");
@@ -64,6 +64,10 @@ export const LoginForm = () => {
 
                 <button type='submit' className={styles.button}>Login</button>
             </form>
+
+            <button onClick={loginByGoogle}>
+                Login by Google
+            </button>
             <br />
 
            
