@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext, useContext, use} from 'react';
-import {loadAllCartsByUserId} from './Util/ServerConnect.js';
+import {loadAllCartsByUserId, API_URL} from './Util/ServerConnect.js';
 const AuthContext = createContext(null);
-const API_URL = "http://localhost:3000";
+
 export const AuthProvider = ({children}) => {
     const [authLoading, setAuthLoading] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);

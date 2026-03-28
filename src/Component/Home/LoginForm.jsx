@@ -31,6 +31,8 @@ export const LoginForm = () => {
         if (loginOK) {
             setPassword("");
             setUsername("");
+            
+            console.log("Login OK");
             await checkAuth();
             navigate("/");
         } else {

@@ -1,6 +1,7 @@
 
-const API_URL = "http://localhost:3000";
-
+const LOCAL_URL = "http://localhost:3000";
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+export const API_URL = VITE_API_URL;
 // Create new user:
 export const createUser = async (userName, password) => {
     try {
