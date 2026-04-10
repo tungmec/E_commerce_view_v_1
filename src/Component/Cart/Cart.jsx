@@ -106,7 +106,7 @@ export const Cart = () => {
                             >
                                 <h4><strong>Cart ID : {cart.id}</strong></h4>
                                 <p>Status: {cart.status} </p>
-                                <p>Create at: {formatVNtime(cart.created_at)} </p>
+                                <p>Create at:  {formatVNtime(cart.created_at)} </p>
                             </div>
                         )
                     })}
